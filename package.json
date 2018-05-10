@@ -1,0 +1,35 @@
+{
+  "name": "deql-ms-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "submodule_install": "npm install --prefix ./../",
+    "server": "set DEBUG=deql* && nodemon --exec babel-node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IAlexandr/deql-ms-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/IAlexandr/deql-ms-server/issues"
+  },
+  "homepage": "https://github.com/IAlexandr/deql-ms-server#readme",
+  "devDependencies": {
+    "babel-plugin-module-resolver": "^3.1.1",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0"
+  },
+  "dependencies": {
+    "config": "^1.30.0",
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "graphql": "^0.13.2",
+    "graphql-server-express": "^1.3.6",
+    "sequelize": "^4.37.7",
+    "subscriptions-transport-ws": "^0.9.9"
+  }
+}
