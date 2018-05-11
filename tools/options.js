@@ -8,7 +8,7 @@ const debug = dg('deql.options');
 debug('deql.projectName ', conf.projectName);
 const projectName = process.env['projectName'] || conf.projectName;
 console.log('PROJECT NAME: ', projectName);
-var project = require('server/index.js').default;
+var project = require('project_server/index.js').default;
 const { modules, projectOptions, dependencies } = project;
 
 function getKeyOptions(v, ret, suf = '', options) {

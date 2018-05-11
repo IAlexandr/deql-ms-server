@@ -81,10 +81,11 @@ export const init = function({ dbConfig, NODE_ENV, modules }) {
                   .then(() => {
                     initialDataTime('done.');
                     // Синхронизация правил с бд.
-                    syncSchemaRules({ db, modules }).then(() => {
-                      debug('syncSchemaRules done.');
-                      return resolve(db);
-                    });
+                    // syncSchemaRules({ db, modules }).then(() => {
+                    //   debug('syncSchemaRules done.');
+                    //   return resolve(db);
+                    // });
+                    return resolve(db);
                   })
                   .catch(err => {
                     initialDataTime('done with err.', err.message);
