@@ -68,17 +68,9 @@ dependencies({ app }).then(context => {
         execute,
         subscribe,
         schema,
-        onOperation: (message, params, webSocket) => {
-          // wrong!!! const prms = Object.assign(params, { context: { test: 1111 } });
-          // debug('onOperation', params);
-          return params;
-        },
         onConnect: (connectionParams, webSocket) => {
-          // console.log('onConnect!', connectionParams);
-          return {
-            sessionId: connectionParams.authorization,
-            // db,
-          };
+          // subscription allowed, check access restriction occurs in the resolvers
+          return {};
         },
       },
       {
