@@ -27,13 +27,8 @@ const app = express();
 compressStaticFiles(app);
 app.use('*', cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(cookieParser());
-
-app.use(express.static(path.resolve(process.cwd(), './build')));
-app.use(
-  '/static/',
-  express.static(path.resolve(process.cwd(), './deql/static'))
-);
-app.use('/static/', express.static(path.resolve(process.cwd(), './static')));
+app.use(express.static(path.resolve(__dirname, './../client_build')));
+app.use('/static/', express.static(path.resolve(__dirname, './../static')));
 
 dependencies({ app }).then(context => {
   // todo убрать context db
@@ -61,7 +56,7 @@ dependencies({ app }).then(context => {
     );
   }
   app.use((req, res, next) => {
-    debug('@!!!!!!!!!!!!!!!!!!');
+    debug('!!!!!not resolved url:', req.url);
     return next();
   });
 
