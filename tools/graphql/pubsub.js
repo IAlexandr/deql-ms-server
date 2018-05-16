@@ -7,6 +7,7 @@ const pubsub = new RedisPubSub({
   connection: {
     host: options.config.redis.host,
     port: options.config.redis.port,
+    password: options.config.redis.password,
   },
 });
 debug('redis connection port ', options.config.redis.port);
