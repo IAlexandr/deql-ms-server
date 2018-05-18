@@ -30,74 +30,80 @@ app.use(cookieParser());
 app.use(express.static(path.resolve(__dirname, './../client_build')));
 app.use('/static/', express.static(path.resolve(__dirname, './../static')));
 
-dependencies({ app }).then(context => {
-  // todo убрать context db
-  const { db } = context;
-  routes(app);
-  const schema = schemaMerge();
-  app.use('/voyager', middleware({ endpointUrl: '/graphql' }));
-  app.use(compression());
-  app.use('/graphql', bodyParser.json(), (req, res, next) => {
-    // debug('req.session.id:', req.session.id);
-    return graphqlExpress({
-      schema,
-      context: Object.assign({ session: req.session }, context), //{ req, res }
-      tracing: true,
-      cacheControl: true,
-    })(req, res, next);
-  });
-  if (config.NODE_ENV !== 'production') {
-    app.get(
-      '/playground',
-      expressPlayground({
-        endpoint: '/graphql',
-        subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
-      })
-    );
-  }
-  app.use((req, res, next) => {
-    debug('!!!!!not resolved url:', req.url);
-    return next();
-  });
-
-  const serverListening = () => {
-    initialized('done.');
-    console.log(`GraphQL Server is now running on http://localhost:${PORT}`);
-    const ss = new SubscriptionServer(
-      {
-        execute,
-        subscribe,
+dependencies({ app })
+  .then(context => {
+    // todo убрать context db
+    const { db } = context;
+    routes(app);
+    const schema = schemaMerge();
+    app.use('/voyager', middleware({ endpointUrl: '/graphql' }));
+    app.use(compression());
+    app.use('/graphql', bodyParser.json(), (req, res, next) => {
+      // debug('req.session.id:', req.session.id);
+      return graphqlExpress({
         schema,
-        onConnect: (connectionParams, webSocket) => {
-          // subscription allowed, check access restriction occurs in the resolvers
-          return {};
-        },
-      },
-      {
-        server: ws,
-        path: '/subscriptions',
-      }
-    );
-  };
-
-  const ws = http.Server(app);
-  if (
-    config.hasOwnProperty('graphql') &&
-    config.graphql.hasOwnProperty('engineApiKey') &&
-    config.graphql.useEngine
-  ) {
-    console.log('using ApolloEngine.');
-    const engine = new ApolloEngine({
-      apiKey: config.graphql.engineApiKey,
+        context: Object.assign({ session: req.session }, context), //{ req, res }
+        tracing: true,
+        cacheControl: true,
+      })(req, res, next);
     });
-    engine.listen(
-      {
-        port: PORT,
-        httpServer: ws,
-      },
-      serverListening
-    );
-  } else {
-    ws.listen(PORT, serverListening);
-  }
-});
+    if (config.NODE_ENV !== 'production') {
+      app.get(
+        '/playground',
+        expressPlayground({
+          endpoint: '/graphql',
+          subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
+        })
+      );
+    }
+    app.use((req, res, next) => {
+      debug('!!!!!not resolved url:', req.url);
+      return next();
+    });
+
+    const serverListening = () => {
+      initialized('done.');
+      console.log(
+        `GraphQL Server is now running on http://localhost:${PORT}`
+      );
+      const ss = new SubscriptionServer(
+        {
+          execute,
+          subscribe,
+          schema,
+          onConnect: (connectionParams, webSocket) => {
+            // subscription allowed, check access restriction occurs in the resolvers
+            return {};
+          },
+        },
+        {
+          server: ws,
+          path: '/subscriptions',
+        }
+      );
+    };
+
+    const ws = http.Server(app);
+    if (
+      config.hasOwnProperty('graphql') &&
+      config.graphql.hasOwnProperty('engineApiKey') &&
+      config.graphql.useEngine
+    ) {
+      console.log('using ApolloEngine.');
+      const engine = new ApolloEngine({
+        apiKey: config.graphql.engineApiKey,
+      });
+      engine.listen(
+        {
+          port: PORT,
+          httpServer: ws,
+        },
+        serverListening
+      );
+    } else {
+      ws.listen(PORT, serverListening);
+    }
+  })
+  .catch(err => {
+    errDebug('dependencies err', err.message);
+  });
