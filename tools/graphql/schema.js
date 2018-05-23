@@ -34,7 +34,7 @@ const moduleSchemas = () => {
         const {
           typeDefs,
           resolvers,
-          // directives, использовать после принятия pullRequest'а
+          // directives, использовать после принятия pullRequest'а https://github.com/apollographql/graphql-tools/pull/682
           schemaStitching,
         } = m.graphql;
         if (
