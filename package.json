@@ -51,7 +51,7 @@
     "redis": "^2.8.0",
     "sequelize": "^4.37.7",
     "sequelize-models":
-      "git+https://github.com/IAlexandr/sequelize-models.git#1.5.0",
+      "git+https://github.com/IAlexandr/sequelize-models.git#1.6.1",
     "socket.io": "^2.1.0",
     "subscriptions-transport-ws": "^0.9.9",
     "useragent": "^2.3.0"

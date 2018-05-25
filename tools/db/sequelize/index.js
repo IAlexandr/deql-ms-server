@@ -3,6 +3,7 @@ import { initDbModels } from './init/models';
 import initialData from './init/data';
 import { syncModels } from './init/utils';
 import { sync as syncSchemaRules } from 'tools/graphql/schema-rules';
+export { default as exportDbModels } from './export-models';
 import logger from './../../logger';
 const pg = require('pg');
 
