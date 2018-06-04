@@ -12,8 +12,8 @@ export let db = {};
 export const init = ({ modules }) =>
   new Promise((resolve, reject) => {
     Object.keys(modules).forEach(n => {
-      debug('modules key', modules[n]);
       if (modules[n] && modules[n].hasOwnProperty('nedb')) {
+        debug('module name', modules[n]);
         if (modules[n].nedb.hasOwnProperty('dbmodels')) {
           modules[n].nedb.dbmodels.forEach(function(collection) {
             db[collection] = new Datastore({
