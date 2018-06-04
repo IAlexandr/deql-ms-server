@@ -13,7 +13,6 @@ export const init = ({ modules }) =>
   new Promise((resolve, reject) => {
     Object.keys(modules).forEach(n => {
       if (modules[n] && modules[n].hasOwnProperty('nedb')) {
-        debug('module name', modules[n]);
         if (modules[n].nedb.hasOwnProperty('dbmodels')) {
           modules[n].nedb.dbmodels.forEach(function(collection) {
             db[collection] = new Datastore({
@@ -27,9 +26,11 @@ export const init = ({ modules }) =>
         }
         if (modules[n].nedb.hasOwnProperty('dbseed')) {
           // TODO globalSyncForce
-          modules[n].nedb.dbseed(db).then(resolve);
+          modules[n].nedb.dbseed(db).then(() => {
+            return resolve(db);
+          });
         } else {
-          return resolve();
+          return resolve(db);
         }
       }
     });

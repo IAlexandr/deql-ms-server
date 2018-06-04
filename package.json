@@ -53,7 +53,8 @@
     "readdir-plus": "^1.1.0",
     "redis": "^2.8.0",
     "sequelize": "^4.37.7",
-    "sequelize-models": "git+https://github.com/IAlexandr/sequelize-models.git#1.6.2",
+    "sequelize-models":
+      "git+https://github.com/IAlexandr/sequelize-models.git#1.6.2",
     "socket.io": "^2.1.0",
     "subscriptions-transport-ws": "^0.9.9",
     "useragent": "^2.3.0"
