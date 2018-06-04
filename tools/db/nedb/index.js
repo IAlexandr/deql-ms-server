@@ -14,7 +14,9 @@ export const init = ({ modules }) =>
     Object.keys(modules).forEach(n => {
       if (modules[n] && modules[n].hasOwnProperty('nedb')) {
         if (modules[n].nedb.hasOwnProperty('dbmodels')) {
-          modules[n].nedb.dbmodels.forEach(function(collection) {
+          Object.keys(modules[n].nedb.dbmodels).forEach(function(
+            collection
+          ) {
             db[collection] = new Datastore({
               filename: path.join(baseDbPath, collection),
               autoload: true,
