@@ -3,7 +3,7 @@ import path from 'path';
 import logger from 'tools/logger';
 const { debug, time } = logger('tools.nedb');
 
-var baseDbPath = path.join(process.cwd(), 'nedb');
+var baseDbPath = path.join(process.cwd(), 'nedb-collections');
 var globalForce = true;
 var AUTO_COMPACTION_INTERVAL = 120 * 1000; // мс
 
