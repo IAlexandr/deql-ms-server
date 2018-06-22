@@ -28,7 +28,7 @@ export const init = ({ modules }) =>
         }
         if (
           options.config.NODE_ENV !== 'production' &&
-          pmodules[n].nedb.hasOwnProperty('dbseed')
+          modules[n].nedb.hasOwnProperty('dbseed')
         ) {
           // TODO globalSyncForce
           modules[n].nedb.dbseed(db).then(() => {
