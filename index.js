@@ -46,7 +46,7 @@ dependencies({ app }).then(context => {
       cacheControl: true,
     })(req, res, next);
   });
-  if (config.NODE_ENV !== 'production') {
+  if (config.NODE_ENV !== 'production' || config.playgroundEnable) {
     app.get(
       '/playground',
       expressPlayground({
