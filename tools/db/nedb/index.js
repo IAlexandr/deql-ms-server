@@ -1,10 +1,10 @@
 import Datastore from 'nedb';
 import path from 'path';
 import logger from 'tools/logger';
+import options from 'tools/options';
 const { debug, time } = logger('tools.nedb');
 
 var baseDbPath = path.join(process.cwd(), 'nedb-collections');
-var globalForce = true;
 var AUTO_COMPACTION_INTERVAL = 120 * 1000; // мс
 
 export let db = {};
@@ -26,7 +26,10 @@ export const init = ({ modules }) =>
             );
           });
         }
-        if (modules[n].nedb.hasOwnProperty('dbseed')) {
+        if (
+          options.config.NODE_ENV !== 'production' &&
+          pmodules[n].nedb.hasOwnProperty('dbseed')
+        ) {
           // TODO globalSyncForce
           modules[n].nedb.dbseed(db).then(() => {
             return resolve(db);
